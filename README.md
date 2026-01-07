@@ -2,7 +2,8 @@
 
 Thread Splitter is a lightweight, browser-only tool that turns long text into thread-ready parts while keeping each part within a character limit. It prioritizes sentence boundaries, falls back to words, and finally graphemes when needed, with options that match common social-platform constraints.
 
-Live demo: https://slice-txt.netlify.app/
+Live demo: https://slice-txt.netlify.app/  
+Custom domain: https://slice-txt.stansult.com (pending DNS/SSL)
 
 ## Features
 
