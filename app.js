@@ -1,6 +1,7 @@
 (function () {
   // Minimum allowed characters for both global max and per-part max
   const MIN_CHARS = 50;
+  const APP_VERSION = '0.1.0';
 
   // =========================
   // DOM helpers & elements
@@ -48,6 +49,18 @@
     // advanced visibility
     advBtn: $('#advBtn')
   };
+
+  const buildEl = document.getElementById('buildVersion');
+  if (buildEl) {
+    buildEl.textContent = `v${APP_VERSION} • build (local)`;
+    fetch('build.txt', { cache: 'no-store' })
+      .then(res => res.ok ? res.text() : '')
+      .then(text => {
+        const trimmed = String(text).trim();
+        if (trimmed) buildEl.textContent = `v${APP_VERSION} • build ${trimmed}`;
+      })
+      .catch(() => { });
+  }
 
   // Ensure the global max input has correct HTML min
   if (el.maxChars) {

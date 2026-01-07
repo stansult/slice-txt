@@ -2,8 +2,8 @@
 
 Thread Splitter is a lightweight, browser-only tool that turns long text into thread-ready parts while keeping each part within a character limit. It prioritizes sentence boundaries, falls back to words, and finally graphemes when needed, with options that match common social-platform constraints.
 
-Live demo: https://slice-txt.netlify.app/  
-Custom domain: https://slice-txt.stansult.com (pending DNS/SSL)
+Live demo: https://thread-splitter.netlify.app/  
+Custom domain: https://thread-splitter.stansult.com
 
 ## Features
 
@@ -23,6 +23,11 @@ Custom domain: https://slice-txt.stansult.com (pending DNS/SSL)
 - Paste or type your text.
 - Adjust options as needed, then copy or export the parts.
 
+## Build version
+
+- Run `scripts/update_build.sh` to update `build.txt`.
+- Commit `build.txt` before deploying so the footer shows the build timestamp and SHA.
+
 ## Roadmap
 
-- Host at `stansult.com/slice-txt` or `slice-txt.stansult.com`.
+- Optional: host at `stansult.com/thread-splitter`.
