@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thread Splitter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Thread Splitter</h1>
+    </header>
+
+    <div class="stack">
+      <!-- Input -->
+      <div class="card section">
+        <h2>Input</h2>
+
+        <div class="section-actions">
+          <button id="autoBtn" class="btn toggle" aria-pressed="true">Auto-split</button>
+          <button id="splitBtn" class="btn">Split</button>
+          <button id="resetBtn" class="btn">Reset</button>
+        </div>
+
+        <div class="row">
+          <label id="autoHint" class="hint">Text is split automatically while you type.</label>
+        </div>
+
+        <textarea id="input" placeholder="Paste or write your long text here…"></textarea>
+
+        <div class="row" id="lengthTipRow" style="display:none">
+          <label id="lengthTip" class="hint"></label>
+        </div>
+      </div>
+
+      <!-- Output (left) + Options (right) -->
+      <div class="grid-below">
+        <!-- Output -->
+        <div class="card out">
+          <div class="section">
+            <h2>Output</h2>
+            <div class="section-actions">
+              <button id="copyAllBtn" class="btn">Copy all</button>
+              <button id="exportJsonBtn" class="btn">Export JSON</button>
+            </div>
+            <div id="summary" class="hint">Nothing yet.</div>
+          </div>
+
+          <div id="chunks" class="chunks"></div>
+
+          <div class="section">
+            <details>
+              <summary class="hint">What this tool does</summary>
+              <ul class="hint">
+                <li>Splits a long text into parts up to your Max chars limit.</li>
+                <li>Prefers splitting at sentence boundaries, then words, then individual characters if needed.</li>
+                <li>Counts length with emoji-aware grapheme length, and can treat URLs as 23 characters (like on Twitter) when enabled.</li>
+                <li>Optional counter before/after text, with parentheses and optional new line; blank lines can force a new part.</li>
+                <li>Optional continuation marker (→ or …) on non-final parts.</li>
+                <li>Optional per-part max override so individual parts can be shorter than the global max.</li>
+                <li>Per-part copy, copy-all, and JSON export.</li>
+                <li>All logic runs locally in your browser. No network calls.</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="card section sticky">
+          <div class="section-header">
+            <h2>Options</h2>
+            <div class="section-actions section-actions--right">
+              <button id="advBtn" class="btn toggle" aria-pressed="false">Advanced</button>
+            </div>
+          </div>
+
+          <div class="controls controls--compact">
+            <!-- 1) Max chars -->
+            <div class="row">
+              <label for="maxChars" class="nowrap">Max chars</label>
+              <input id="maxChars" type="number" min="10" max="5000" value="280">
+            </div>
+
+            <!-- Counter -->
+            <div class="row">
+              <label class="row-inline">
+                <input id="useNumbering" type="checkbox" checked>
+                <span>Counter</span>
+              </label>
+
+              <select id="counterPlacement" class="counter-extra" aria-label="Counter placement">
+                <option value="after">after</option>
+                <option value="before">before</option>
+              </select>
+              <span class="muted counter-extra">text</span>
+            </div>
+
+            <!-- NEW line for the extra checkboxes -->
+            <div class="row counter-adv adv">
+              <label class="row-inline">
+                <input id="counterParen" type="checkbox">
+                <span>parentheses</span>
+              </label>
+              <label class="row-inline">
+                <input id="counterNewline" type="checkbox">
+                <span>new line</span>
+              </label>
+            </div>
+
+            <!-- 3) Blank line behavior -->
+            <div class="row">
+              <label class="row-inline">
+                <input id="doubleBreakNewPost" type="checkbox">
+                <span>Blank line starts a new part</span>
+              </label>
+            </div>
+
+            <!-- Continuation marker -->
+            <div class="row adv">
+              <label class="row-inline">
+                <input id="useContinuation" type="checkbox">
+                <span>Continuation marker</span>
+              </label>
+              <select id="continuationMarker" aria-label="Continuation marker">
+                <option value="arrow">→</option>
+                <option value="ellipsis">…</option>
+              </select>
+            </div>
+
+            <!-- Twitter-style URL length -->
+            <div class="row adv">
+              <label class="row-inline">
+                <input id="urlAs23" type="checkbox" checked>
+                <span>URLs count as 23 chars (Twitter)</span>
+              </label>
+            </div>
+
+            <!-- Part max chars override -->
+            <div class="row adv">
+              <label class="row-inline">
+                <input id="perPartMaxOverride" type="checkbox">
+                <span>Per-part max override</span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+      </div> <!-- /grid-below -->
+    </div> <!-- /stack -->
+  </div> <!-- /wrap -->
+
+  <template id="chunkTpl">
+    <div class="chunk">
+      <header>
+        <div class="kpi">Part <strong class="idx">1</strong></div>
+        <div class="kpi"><span class="len">0</span>/<span class="cap">280</span></div>
+      </header>
+      <div class="bar"><i></i></div>
+      <div class="content" contenteditable="false"></div>
+      <div class="footer">
+        <button class="btn copyBtn" type="button">Copy</button>
+        <div class="part-max">
+          <button class="btn part-max-dec" type="button">−</button>
+          <input class="part-max-input mono" type="number" inputmode="numeric">
+          <button class="btn part-max-inc" type="button">+</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
