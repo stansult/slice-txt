@@ -25,8 +25,8 @@ Custom domain: https://thread-splitter.stansult.com
 
 ## Build version
 
-- Run `scripts/update_build.sh` to update `build.txt`.
-- Commit `build.txt` before deploying so the footer shows the build timestamp and SHA.
+- A pre-commit hook runs `scripts/update_build.sh` and stages `build.txt`.
+- Enable it once per clone: `git config core.hooksPath .githooks`.
 
 ## Roadmap
 
