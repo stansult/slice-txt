@@ -13,7 +13,7 @@
     input: $('#input'),
     autoBtn: $('#autoBtn'),
     splitBtn: $('#splitBtn'),
-    resetBtn: $('#resetBtn'),
+    clearBtn: $('#clearBtn'),
 
     // small hints
     autoHint: $('#autoHint'),
@@ -47,7 +47,22 @@
     urlAs23: $('#urlAs23'),
 
     // advanced visibility
-    advBtn: $('#advBtn')
+    advBtn: $('#advBtn'),
+    optionsResetBtn: $('#optionsResetBtn')
+  };
+
+  const OPTION_DEFAULTS = {
+    maxChars: 280,
+    useNumbering: true,
+    counterPlacement: 'after',
+    counterParens: false,
+    counterNewline: false,
+    doubleBreakNewPost: false,
+    useContinuation: false,
+    continuationMarker: 'arrow',
+    perPartMaxOverride: false,
+    urlAs23: true,
+    advOn: false
   };
 
   const buildEl = document.getElementById('buildVersion');
@@ -668,7 +683,7 @@
     const noOutput = !lastChunks || lastChunks.length === 0;
 
     if (el.splitBtn) el.splitBtn.disabled = inputEmpty || isAuto();
-    if (el.resetBtn) el.resetBtn.disabled = inputEmpty;
+    if (el.clearBtn) el.clearBtn.disabled = inputEmpty;
     if (el.copyAllBtn) el.copyAllBtn.disabled = noOutput;
     if (el.exportJsonBtn) el.exportJsonBtn.disabled = noOutput;
   }
@@ -857,14 +872,36 @@
     });
   }
 
-  if (el.resetBtn) {
-    el.resetBtn.addEventListener('click', () => {
+  if (el.clearBtn) {
+    el.clearBtn.addEventListener('click', () => {
       el.input.value = '';
       lastChunks = [];
       partMaxOverrides = [];
       render([]);
       updateButtons();
       saveOpts();
+    });
+  }
+
+  if (el.optionsResetBtn) {
+    el.optionsResetBtn.addEventListener('click', () => {
+      if (el.maxChars) el.maxChars.value = String(OPTION_DEFAULTS.maxChars);
+      if (el.useNumbering) el.useNumbering.checked = OPTION_DEFAULTS.useNumbering;
+      if (el.counterPlacement) el.counterPlacement.value = OPTION_DEFAULTS.counterPlacement;
+      if (el.counterParens) el.counterParens.checked = OPTION_DEFAULTS.counterParens;
+      if (el.counterNewline) el.counterNewline.checked = OPTION_DEFAULTS.counterNewline;
+      if (el.doubleBreakNewPost) el.doubleBreakNewPost.checked = OPTION_DEFAULTS.doubleBreakNewPost;
+      if (el.useContinuation) el.useContinuation.checked = OPTION_DEFAULTS.useContinuation;
+      if (el.continuationMarker) el.continuationMarker.value = OPTION_DEFAULTS.continuationMarker;
+      if (el.perPartMaxOverride) el.perPartMaxOverride.checked = OPTION_DEFAULTS.perPartMaxOverride;
+      if (el.urlAs23) el.urlAs23.checked = OPTION_DEFAULTS.urlAs23;
+      if (el.advBtn) el.advBtn.setAttribute('aria-pressed', OPTION_DEFAULTS.advOn ? 'true' : 'false');
+      document.body.classList.toggle('advanced', OPTION_DEFAULTS.advOn);
+
+      partMaxOverrides = [];
+      updateCounterUI();
+      updatePerPartUI();
+      run();
     });
   }
 
