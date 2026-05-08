@@ -46,6 +46,9 @@
     // url length mode (advanced)
     urlAs23: $('#urlAs23'),
 
+    // typography processing (advanced)
+    useTypography: $('#useTypography'),
+
     // advanced visibility
     advBtn: $('#advBtn'),
     optionsResetBtn: $('#optionsResetBtn')
@@ -62,6 +65,7 @@
     continuationMarker: 'arrow',
     perPartMaxOverride: false,
     urlAs23: true,
+    useTypography: false,
     advOn: false
   };
 
@@ -92,7 +96,8 @@
       'doubleBreakNewPost',
       'useContinuation', 'continuationMarker',
       'perPartMaxOverride',
-      'urlAs23'
+      'urlAs23',
+      'useTypography'
     ];
     const data = {};
     for (const k of keys) {
@@ -227,6 +232,83 @@
     t = t.replace(/\n{3,}/g, '\n\n');
     t = t.trim();
     return t;
+  }
+
+  function processTypography(text) {
+    let t = String(text);
+
+    // Remove indentation at line starts and collapse spaces/tabs.
+    t = t.replace(/^[ \t]+/gm, '');
+    t = t.replace(/[ \t]+/g, ' ');
+
+    // Apply typography only to non-URL segments.
+    t = mapNonUrlSegments(t, transformNonUrlSegment);
+    return t;
+  }
+
+  function mapNonUrlSegments(text, transform) {
+    let out = '';
+    let last = 0;
+    let m;
+
+    urlRe.lastIndex = 0;
+    while ((m = urlRe.exec(text)) !== null) {
+      const start = m.index;
+      const end = start + m[0].length;
+      out += transform(text.slice(last, start));
+      out += m[0];
+      last = end;
+    }
+    out += transform(text.slice(last));
+    return out;
+  }
+
+  function transformNonUrlSegment(segment) {
+    let s = String(segment);
+
+    // Line-start markers to en dash (double-hyphen first).
+    s = s.replace(/^-- /gm, '– ');
+    s = s.replace(/^- /gm, '– ');
+
+    // Ellipsis and arrows.
+    s = s.replace(/\.\.\./g, '…');
+    s = s.replace(/->/g, '→');
+
+    // Numeric ranges: always use en dash, keep tight/spaced style when consistent.
+    s = s.replace(/(\d)(\s*)-(\s*)(\d)/g, (full, a, left, right, b) => {
+      const noSpaces = left === '' && right === '';
+      const spacedBoth = left !== '' && right !== '';
+      if (noSpaces) return `${a}–${b}`;
+      if (spacedBoth) return `${a} – ${b}`;
+      return `${a}–${b}`;
+    });
+
+    // Conservative prose dashes (spaces/tabs only so this never crosses lines).
+    // Replace only the separator to handle chained cases like "a - b - c".
+    s = s.replace(/(?<=[\p{L}\p{N}])[ \t]+--[ \t]+(?=[\p{L}\p{N}])/gu, ' – ');
+    s = s.replace(/(?<=[\p{L}\p{N}])[ \t]+-[ \t]+(?=[\p{L}\p{N}])/gu, ' – ');
+
+    // Apostrophes inside words.
+    s = s.replace(/([\p{L}])'([\p{L}])/gu, '$1’$2');
+
+    // Paired single quotes.
+    s = s.replace(/'([^'\n]*)'/g, '‘$1’');
+
+    // Paired double quotes: English by default, Russian guillemets for all-Cyrillic inner letters.
+    s = s.replace(/"([^"\n]*)"/g, (full, inner) => {
+      const letters = String(inner).match(/\p{L}/gu) || [];
+      if (letters.length > 0 && letters.every(ch => /\p{Script=Cyrillic}/u.test(ch))) {
+        return `«${inner}»`;
+      }
+      return `“${inner}”`;
+    });
+
+    // Punctuation spacing cleanup.
+    s = s.replace(/\s+([.,!?;:])/g, '$1');
+    s = s.replace(/([(\[{«“‘])\s+/g, '$1');
+    s = s.replace(/\s+([)\]}»”’])/g, '$1');
+
+    return s;
   }
 
   // ======================================
@@ -756,7 +838,11 @@
     const overridesForSplit = usePerPart ? partMaxOverrides : [];
 
     const opts = {
-      text: normalize(el.input.value),
+      text: normalize(
+        (el.useTypography && el.useTypography.checked)
+          ? processTypography(el.input.value)
+          : el.input.value
+      ),
       maxChars: globalMax,
 
       useNumbering: !!(el.useNumbering && el.useNumbering.checked),
@@ -834,7 +920,8 @@
     'doubleBreakNewPost',
     'useContinuation', 'continuationMarker',
     'perPartMaxOverride',
-    'urlAs23'
+    'urlAs23',
+    'useTypography'
   ];
   for (const k of optNodes) {
     const node = el[k];
@@ -895,6 +982,7 @@
       if (el.continuationMarker) el.continuationMarker.value = OPTION_DEFAULTS.continuationMarker;
       if (el.perPartMaxOverride) el.perPartMaxOverride.checked = OPTION_DEFAULTS.perPartMaxOverride;
       if (el.urlAs23) el.urlAs23.checked = OPTION_DEFAULTS.urlAs23;
+      if (el.useTypography) el.useTypography.checked = OPTION_DEFAULTS.useTypography;
       if (el.advBtn) el.advBtn.setAttribute('aria-pressed', OPTION_DEFAULTS.advOn ? 'true' : 'false');
       document.body.classList.toggle('advanced', OPTION_DEFAULTS.advOn);
 
