@@ -25,8 +25,8 @@ Custom domain: https://thread-splitter.stansult.com
 
 ## Build version
 
-- A pre-commit hook updates and stages `site/build.txt` only when staged changes affect `site/index.html`, `site/app.js`, or `site/styles.css`.
-- Enable it once per clone: `git config core.hooksPath .githooks`.
+- Netlify runs `scripts/write_build_info.sh` during deployment to write the deployed commit SHA to `site/build.txt`.
+- `site/build.txt` is generated output and is ignored by Git; local runs show the `(local)` fallback when it is absent.
 
 ## Roadmap
 

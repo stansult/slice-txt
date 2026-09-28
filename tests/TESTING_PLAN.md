@@ -38,7 +38,8 @@
 
 - Run the automated suite in GitHub Actions on pull requests and pushes to the primary branch.
 - Install project dependencies and the required Playwright browser in CI, then run the same test command used locally.
-- Netlify publishes `site/`, and its Git build ignore rule limits deployments to changes in the site files or deploy configuration. Decide separately whether production deployment must wait for passing tests; adding a GitHub Actions test workflow alone does not gate Netlify deployment.
+- Netlify publishes `site/`, generates `site/build.txt` from the deployed commit, and ignores Git changes outside the site source files, version-generation script, and `netlify.toml`. Decide separately whether production deployment must wait for passing tests; adding a GitHub Actions test workflow alone does not gate Netlify deployment.
+- When adding GitHub Actions, add a post-deploy check that waits for the production `build.txt` to report the pushed commit, then verifies the live footer shows that commit and a valid build timestamp.
 
 ## Usage documentation
 

@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-if ! git diff --cached --quiet -- site/index.html site/app.js site/styles.css; then
-  sh ./scripts/update_build.sh
-  git add site/build.txt
-fi
