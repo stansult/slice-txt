@@ -14,8 +14,9 @@ Custom domain: https://thread-splitter.stansult.com
 - Blank-line handling to force new parts.
 - Optional continuation markers for non-final parts.
 - Per-part max overrides for finer control.
+- Optional typography processing for quotes, dashes, and spacing.
 - Copy per part, copy all, or export JSON.
-- Runs entirely in the browser; no network calls.
+- Text is processed in the browser and is not sent to a server.
 
 ## Usage
 
@@ -23,11 +24,11 @@ Custom domain: https://thread-splitter.stansult.com
 - Paste or type your text.
 - Adjust options as needed, then copy or export the parts.
 
+## Tests
+
+See [tests/README.md](tests/README.md) for the current test status and how to run the Playwright suite.
+
 ## Build version
 
 - Netlify runs `scripts/write_build_info.sh` during deployment to write the deployed commit SHA to `site/build.txt`.
 - `site/build.txt` is generated output and is ignored by Git; local runs show the `(local)` fallback when it is absent.
-
-## Roadmap
-
-- Optional: host at `stansult.com/thread-splitter`.
