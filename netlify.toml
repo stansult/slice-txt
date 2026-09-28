@@ -1,3 +1,4 @@
 [build]
-  publish = "."
+  publish = "site"
   command = ""
+  ignore = 'if [ -z "$CACHED_COMMIT_REF" ] || [ -z "$COMMIT_REF" ] || [ "$CACHED_COMMIT_REF" = "$COMMIT_REF" ]; then exit 1; elif git diff --quiet "$CACHED_COMMIT_REF" "$COMMIT_REF" -- site/index.html site/app.js site/styles.css site/build.txt netlify.toml; then exit 0; else exit 1; fi'

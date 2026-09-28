@@ -19,13 +19,13 @@ Custom domain: https://thread-splitter.stansult.com
 
 ## Usage
 
-- Open `index.html` in a browser.
+- Open `site/index.html` in a browser.
 - Paste or type your text.
 - Adjust options as needed, then copy or export the parts.
 
 ## Build version
 
-- A pre-commit hook runs `scripts/update_build.sh` and stages `build.txt`.
+- A pre-commit hook updates and stages `site/build.txt` only when staged changes affect `site/index.html`, `site/app.js`, or `site/styles.css`.
 - Enable it once per clone: `git config core.hooksPath .githooks`.
 
 ## Roadmap

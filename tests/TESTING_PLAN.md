@@ -38,7 +38,7 @@
 
 - Run the automated suite in GitHub Actions on pull requests and pushes to the primary branch.
 - Install project dependencies and the required Playwright browser in CI, then run the same test command used locally.
-- Decide separately whether production deployment must wait for passing tests. Netlify currently deploys directly from GitHub, so adding a GitHub Actions test workflow alone will not gate Netlify deployment.
+- Netlify publishes `site/`, and its Git build ignore rule limits deployments to changes in the site files or deploy configuration. Decide separately whether production deployment must wait for passing tests; adding a GitHub Actions test workflow alone does not gate Netlify deployment.
 
 ## Usage documentation
 
