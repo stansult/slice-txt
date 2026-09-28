@@ -48,7 +48,8 @@
 ## Implementation sequence
 
 1. [✓] Add Playwright and TypeScript tooling.
-2. Write and run one core workflow test locally, verifying that the browser opens the locally served app.
-3. Expand coverage from user-visible behavior and refine structure only when useful.
-4. Add the GitHub Actions workflow and verify its results.
-5. Document the finished commands, coverage, and any deployment-gating decision.
+2. [✓] Verify the browser opens the locally served app with a smoke test.
+3. Write and run one core workflow test locally, asserting its rendered splitting results.
+4. Expand coverage from user-visible behavior and refine structure only when useful.
+5. Add the GitHub Actions workflow and verify its results.
+6. Document the finished commands, coverage, and any deployment-gating decision.
