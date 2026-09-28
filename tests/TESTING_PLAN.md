@@ -21,6 +21,14 @@
 - Add abstractions only when repeated test code or a clear maintenance need justifies them.
 - Consider direct unit tests for splitting or typography logic if browser tests prove awkward to isolate or diagnose; do not extract application code solely to satisfy a test structure.
 
+## Test authoring and debugging
+
+- Understand the user-visible behavior and relevant constraints before choosing test inputs or expected results.
+- Keep reusable text data, option scenarios, and the explicitly selected data/scenario runs separate; avoid generating every possible combination.
+- Make assertions conditional on the options enabled for that run. Do not assert markers, counters, or formatting that the scenario has disabled.
+- When a test fails unexpectedly, inspect the selected data, scenario settings, and rendered output before changing the test or application. Distinguish setup/assertion mismatches from product defects using observed evidence.
+- Debug unexpected behavior collaboratively before changing the test or product code; explain what failed and why before proposing a fix.
+
 ## Test data and environment
 
 - Serve the actual project files locally over HTTP for browser tests.
@@ -36,8 +44,8 @@
 
 ## Continuous integration
 
-- Run the automated suite in GitHub Actions on pull requests and pushes to the primary branch.
-- Install project dependencies and the required Playwright browser in CI, then run the same test command used locally.
+- Run the automated suite in GitHub Actions on pull requests and pushes to the primary branch. The workflow is configured in `.github/workflows/playwright.yml` for pushes to `main` and pull requests targeting `main`.
+- Use Node.js 24, install dependencies with `npm ci`, install Chromium and its system dependencies, then run the same `npm test` command used locally. Verify the workflow with its first GitHub-hosted run.
 - Netlify publishes `site/`, generates `site/build.txt` from the deployed commit, and ignores Git changes outside the site source files, version-generation script, and `netlify.toml`. Decide separately whether production deployment must wait for passing tests; adding a GitHub Actions test workflow alone does not gate Netlify deployment.
 - When adding GitHub Actions, add a post-deploy check that waits for the production `build.txt` to report the pushed commit, then verifies the live footer shows that commit and a valid build timestamp.
 
@@ -52,5 +60,6 @@
 2. [✓] Verify the browser opens the locally served app with a smoke test.
 3. Write and run one core workflow test locally, asserting its rendered splitting results.
 4. Expand coverage from user-visible behavior and refine structure only when useful.
-5. Add the GitHub Actions workflow and verify its results.
-6. Document the finished commands, coverage, and any deployment-gating decision.
+5. [✓] Add the GitHub Actions workflow configuration.
+6. Verify the workflow with its first GitHub-hosted run.
+7. Document the finished commands, coverage, and any deployment-gating decision.
