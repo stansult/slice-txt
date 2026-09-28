@@ -50,6 +50,11 @@ body {
   justify-content: flex-end;
 }
 
+.footer-bar .hint {
+  color: #a0a0a6;
+  font-size: 10px;
+}
+
 header {
   display: flex;
   gap: 14px;
