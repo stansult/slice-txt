@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "slice-txt",
+  "version": "1.0.0",
+  "description": "Thread Splitter is a lightweight, browser-only tool that turns long text into thread-ready parts while keeping each part within a character limit. It prioritizes sentence boundaries, falls back to words, and finally graphemes when needed, with options that match common social-platform constraints.",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stansult/slice-txt.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stansult/slice-txt/issues"
+  },
+  "homepage": "https://github.com/stansult/slice-txt#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  }
+}

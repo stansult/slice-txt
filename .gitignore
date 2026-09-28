@@ -1,3 +1,5 @@
 .DS_Store
 screenshots/
 notes/
+node_modules/
+test-results/
