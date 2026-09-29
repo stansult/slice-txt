@@ -45,9 +45,10 @@
 ## Continuous integration
 
 - Run the automated suite in GitHub Actions on pull requests and pushes to the primary branch. The workflow is configured in `.github/workflows/playwright.yml` for pushes to `main` and pull requests targeting `main`.
-- Use Node.js 24, install dependencies with `npm ci`, install Chromium and its system dependencies, then run the same `npm test` command used locally. Verify the workflow with its first GitHub-hosted run.
-- Netlify publishes `site/`, generates `site/build.txt` from the deployed commit, and ignores Git changes outside the site source files, version-generation script, and `netlify.toml`. Decide separately whether production deployment must wait for passing tests; adding a GitHub Actions test workflow alone does not gate Netlify deployment.
-- When adding GitHub Actions, add a post-deploy check that waits for the production `build.txt` to report the pushed commit, then verifies the live footer shows that commit and a valid build timestamp.
+- Use Node.js 24, install dependencies with `npm ci`, install Chromium and its system dependencies, then run the same `npm test` command used locally. This has passed in GitHub Actions.
+- On successful pushes to `main`, GitHub Actions deploys `site/` to Netlify only when a site source file, the build metadata script, or `netlify.toml` changes. The workflow generates `site/build.txt`, uploads the prebuilt site with the Netlify CLI, and supplies the commit subject as the deploy message.
+- Netlify's automatic Git builds are stopped so tested GitHub Actions runs are the sole production deployment path. Netlify's ignore rule remains configured for when automatic builds are re-enabled.
+- After a production deploy, a separate Playwright check waits for the live `build.txt` to report the pushed commit, then verifies the footer displays that commit and a valid build timestamp.
 
 ## Usage documentation
 
@@ -58,8 +59,9 @@
 
 1. [✓] Add Playwright and TypeScript tooling.
 2. [✓] Verify the browser opens the locally served app with a smoke test.
-3. Write and run one core workflow test locally, asserting its rendered splitting results.
+3. [✓] Write and run a core workflow test locally, asserting its rendered splitting results.
 4. Expand coverage from user-visible behavior and refine structure only when useful.
 5. [✓] Add the GitHub Actions workflow configuration.
-6. Verify the workflow with its first GitHub-hosted run.
-7. Document the finished commands, coverage, and any deployment-gating decision.
+6. [✓] Verify the GitHub-hosted test workflow and test-gated production deploy.
+7. Add and verify post-deploy commit and footer checks in GitHub Actions.
+8. [✓] Document the current commands, coverage, and deployment-gating decision.

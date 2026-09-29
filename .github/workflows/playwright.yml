@@ -58,6 +58,9 @@ jobs:
       - name: Install dependencies for deployment
         if: steps.site_changes.outputs.changed == 'true'
         run: npm ci
+      - name: Install Chromium for deployment verification
+        if: steps.site_changes.outputs.changed == 'true'
+        run: npx playwright install --with-deps chromium
       - name: Generate build metadata
         if: steps.site_changes.outputs.changed == 'true'
         run: bash scripts/write_build_info.sh
@@ -69,3 +72,9 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Verify live production build metadata
+        if: steps.site_changes.outputs.changed == 'true'
+        run: npm run verify:deploy
+        env:
+          PRODUCTION_URL: https://thread-splitter.stansult.com
+          DEPLOY_SHA: ${{ github.sha }}
