@@ -43,8 +43,7 @@ jobs:
             site/app.js \
             site/styles.css \
             scripts/write_build_info.sh \
-            netlify.toml \
-            .github/workflows/playwright.yml)
+            netlify.toml)
           if [[ -n "$changed_files" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
