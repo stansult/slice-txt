@@ -1,7 +1,7 @@
 (function () {
   // Minimum allowed characters for both global max and per-part max
   const MIN_CHARS = 50;
-  const APP_VERSION = '0.1.0';
+  const APP_VERSION = '0.2.0';
 
   // =========================
   // DOM helpers & elements

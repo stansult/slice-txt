@@ -45,14 +45,14 @@ body {
 .footer-bar {
   max-width: 1200px;
   margin: 8px auto 18px;
-  padding: 0 20px;
+  padding: 0 20px 24px;
   display: flex;
   justify-content: flex-end;
 }
 
 .footer-bar .hint {
   color: #a0a0a6;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 header {
