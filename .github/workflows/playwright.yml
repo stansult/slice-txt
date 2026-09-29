@@ -65,7 +65,7 @@ jobs:
           COMMIT_REF: ${{ github.sha }}
       - name: Deploy to production on Netlify
         if: steps.site_changes.outputs.changed == 'true'
-        run: npx netlify deploy --dir=site --no-build --prod
+        run: npx netlify deploy --dir=site --no-build --prod --message="$(git log -1 --pretty=%s)"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
