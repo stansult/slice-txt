@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const helpText = [
+  'Your text is processed in your browser and isn’t sent or uploaded anywhere.',
   'Fills each part up to your character limit, keeping words together when possible and splitting long words only when needed.',
   'Counts length using emoji-aware graphemes; optionally counts URLs as 23 characters (like on Twitter).',
   'Split automatically as you type or manually with the Split button.',
@@ -8,7 +9,6 @@ const helpText = [
   'Optional continuation marker (→ or …) on non-final parts and per-part limits shorter than the global limit.',
   'Optional typography cleanup for quotes, dashes, spacing, ellipses, and arrows.',
   'Copy individual parts or all parts, or export them as JSON.',
-  'Your text is processed in your browser and isn’t sent or uploaded anywhere.',
 ];
 
 const pageStates = [
