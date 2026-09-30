@@ -55,14 +55,14 @@
             <details>
               <summary class="hint">What this tool does</summary>
               <ul class="hint">
-                <li>Splits a long text into parts up to your Max chars limit.</li>
-                <li>Prefers splitting at sentence boundaries, then words, then individual characters if needed.</li>
-                <li>Counts length with emoji-aware grapheme length, and can treat URLs as 23 characters (like on Twitter) when enabled.</li>
-                <li>Optional counter before/after text, with parentheses and optional new line; blank lines can force a new part.</li>
-                <li>Optional continuation marker (→ or …) on non-final parts.</li>
-                <li>Optional per-part max override so individual parts can be shorter than the global max.</li>
-                <li>Per-part copy, copy-all, and JSON export.</li>
-                <li>All logic runs locally in your browser. No network calls.</li>
+                <li>Fills each part up to your character limit, keeping words together when possible and splitting long words only when needed.</li>
+                <li>Counts length using emoji-aware graphemes; optionally counts URLs as 23 characters (like on Twitter).</li>
+                <li>Split automatically as you type or manually with the Split button.</li>
+                <li>Optional counter before or after the text, with parentheses or a new line; blank lines can start a new part.</li>
+                <li>Optional continuation marker (→ or …) on non-final parts and per-part limits shorter than the global limit.</li>
+                <li>Optional typography cleanup for quotes, dashes, spacing, ellipses, and arrows.</li>
+                <li>Copy individual parts or all parts, or export them as JSON.</li>
+                <li>Your text is processed in your browser and isn’t sent or uploaded anywhere.</li>
               </ul>
             </details>
           </div>

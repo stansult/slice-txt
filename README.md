@@ -1,6 +1,6 @@
 # Thread Splitter
 
-Thread Splitter is a lightweight, browser-only tool that turns long text into thread-ready parts while keeping each part within a character limit. It prioritizes sentence boundaries, falls back to words, and finally graphemes when needed, with options that match common social-platform constraints.
+Thread Splitter is a lightweight, browser-only tool that turns long text into thread-ready parts up to a character limit. It keeps words together when possible and splits long words only when needed, with options that match common social-platform constraints.
 
 Live demo: https://thread-splitter.netlify.app/  
 Custom domain: https://thread-splitter.stansult.com
@@ -11,12 +11,12 @@ Custom domain: https://thread-splitter.stansult.com
 - Emoji-aware length counting (grapheme-based).
 - Optional URL-as-23 counting (X/Twitter-style).
 - Counter placement before/after, with parentheses and optional new lines.
-- Blank-line handling to force new parts.
+- Blank-line handling to start new parts.
 - Optional continuation markers for non-final parts.
 - Per-part max overrides for finer control.
 - Optional typography processing for quotes, dashes, and spacing.
 - Copy per part, copy all, or export JSON.
-- Text is processed in the browser and is not sent to a server.
+- Your text is processed in your browser and isn’t sent or uploaded anywhere.
 
 ## Usage
 
