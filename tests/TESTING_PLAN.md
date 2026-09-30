@@ -36,6 +36,27 @@
 - Keep tests independent of external services and production data.
 - Make browser setup work consistently on a developer machine and GitHub Actions.
 
+## Coverage priorities
+
+Add coverage in deliberate, user-visible increments; do not generate every option permutation.
+
+1. **Core split correctness:** assert exact parts for representative inputs, preserve the complete normalized input across parts, and verify sentence → word → grapheme fallback behavior. Include grapheme-safe splitting for emoji and other multi-code-point characters.
+2. **Length accounting:** assert the displayed length and limit for each part, including counter/continuation overhead. Make the URL-as-23 case distinguish weighted counting from ordinary character counting, and test URL counting disabled. Include a boundary that demonstrates grapheme-aware counting.
+3. **Input workflow:** cover auto-split while typing, manual Split mode, toggling between modes, and Clear removing both input and output.
+4. **Option behavior and persistence:** cover blank-line-starts-new-part, representative typography transformations with typography off/on, Reset restoring defaults, and saved options surviving reload.
+5. **Per-part max override:** change a part's limit and verify resulting output and enforcement of global/minimum bounds.
+6. **Output actions and UI state:** verify per-part Copy and Copy all contents, JSON export content, relevant buttons' empty/disabled states, and the emoji/URL length tip.
+
+Keep assertions focused on the selected run's enabled behavior. For text-processing tests, use explicit expected output rather than only checking that the number or size of parts appears plausible.
+
+### Current gaps
+
+- The current splitting tests check for multiple parts and compare each rendered string's JavaScript `.length` to the configured maximum; they do not assert exact chunk contents, full input preservation, or the app's displayed weighted length.
+- Existing fixtures do not yet establish sentence/word/grapheme fallback, emoji grapheme boundaries, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows.
+- The URL-as-23 run enables the option but its current input and assertions do not prove that weighted URL counting changes a boundary or reported length.
+- The smoke test only navigates to the app. It does not check mode behavior, button states, or output actions.
+- The production footer verification passed locally against the live site. Its first run inside GitHub Actions after a production deploy is still pending.
+
 ## Reporting and debugging
 
 - Configure Playwright to provide useful failure output and retain traces or reports when a test fails in CI.
@@ -63,5 +84,5 @@
 4. Expand coverage from user-visible behavior and refine structure only when useful.
 5. [✓] Add the GitHub Actions workflow configuration.
 6. [✓] Verify the GitHub-hosted test workflow and test-gated production deploy.
-7. Add and verify post-deploy commit and footer checks in GitHub Actions.
+7. [Local ✓] Add and verify post-deploy commit and footer checks locally; verify the check in GitHub Actions after a production deploy.
 8. [✓] Document the current commands, coverage, and deployment-gating decision.
