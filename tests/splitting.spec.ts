@@ -39,6 +39,11 @@ for (const run of splittingRuns) {
       expect(part.length).toBeLessThanOrEqual(maxChars);
     }
 
+    if ('expectedParts' in run) {
+      expect(parts).toEqual(run.expectedParts);
+      expect(parts.join(' ')).toBe(run.data.input);
+    }
+
     if (useContinuation) {
       const marker = 'continuationMarker' in run.options && run.options.continuationMarker === 'ellipsis'
         ? '…'

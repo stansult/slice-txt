@@ -51,7 +51,7 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 
 ### Current gaps
 
-- The current splitting tests check for multiple parts and compare each rendered string's JavaScript `.length` to the configured maximum; they do not assert exact chunk contents, full input preservation, or the app's displayed weighted length.
+- The minimum word-boundary run now asserts exact part contents and reconstructs that input from the parts. Other splitting runs still check for multiple parts and compare rendered JavaScript `.length` to the configured maximum; sentence/grapheme fallback and the app's displayed weighted lengths remain unverified.
 - Existing fixtures do not yet establish sentence/word/grapheme fallback, emoji grapheme boundaries, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows.
 - The URL-as-23 run enables the option but its current input and assertions do not prove that weighted URL counting changes a boundary or reported length.
 - The smoke test only navigates to the app. It does not check mode behavior, button states, or output actions.

@@ -91,6 +91,10 @@ export const splittingRuns = [
     name: 'minimum word-boundary split',
     data: textCases.wordBoundary,
     options: optionScenarios.minimumWithoutExtras,
+    expectedParts: [
+      'one two three four five six seven eight nine ten',
+      'eleven',
+    ],
   },
   {
     name: 'minimum word-boundary split with counter newline',
