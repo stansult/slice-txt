@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { fillWithLongOutput } from './helpers';
 
 const helpText = [
   'Your text is processed in your browser and isn’t sent or uploaded anywhere.',
@@ -35,9 +36,7 @@ for (const pageState of pageStates) {
       );
 
       if (pageState.manyParts) {
-        await page.getByLabel('Max chars').fill('50');
-        await page.locator('#useNumbering').uncheck();
-        await page.locator('#input').fill('word '.repeat(200));
+        await fillWithLongOutput(page);
 
         const parts = page.locator('#chunks .chunk');
         await expect(parts).not.toHaveCount(0);

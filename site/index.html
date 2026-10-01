@@ -12,6 +12,7 @@
   <div class="wrap">
     <header>
       <h1>Thread Splitter</h1>
+      <button id="helpButton" class="btn help-button" type="button" aria-label="Open help: What this tool does" aria-controls="helpDetails">?</button>
     </header>
 
     <div class="stack">
@@ -52,8 +53,8 @@
           <div id="chunks" class="chunks"></div>
 
           <div class="section">
-            <details>
-              <summary class="hint">What this tool does</summary>
+            <details id="helpDetails">
+              <summary id="helpTitle" class="hint">What this tool does</summary>
               <ul class="hint">
                 <li>Your text is processed in your browser and isn’t sent or uploaded anywhere.</li>
                 <li>Fills each part up to your character limit, keeping words together when possible and splitting long words only when needed.</li>

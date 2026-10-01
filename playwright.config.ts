@@ -22,14 +22,14 @@ export default defineConfig({
             testIgnore: ['**/post-deploy/**', '**/smoke.test.ts'],
             use: { browserName: 'chromium' },
             grepInvert: /@mobile\b/,
-            dependencies: ['smoke-chromium', 'smoke-mobile-chromium'],
+            dependencies: ['smoke-chromium'],
         },
         {
             name: 'mobile-chromium',
             testIgnore: ['**/post-deploy/**', '**/smoke.test.ts'],
             use: { ...devices['Pixel 7'] },
             grepInvert: /@desktop\b/,
-            dependencies: ['smoke-chromium', 'smoke-mobile-chromium'],
+            dependencies: ['smoke-mobile-chromium'],
         },
     ],
     webServer: {

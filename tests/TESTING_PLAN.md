@@ -36,7 +36,7 @@
 - Keep tests independent of external services and production data.
 - Make browser setup work consistently on a developer machine and GitHub Actions.
 - Run untagged tests in both desktop Chromium and the fixed Pixel 7 mobile Chromium profile. Use Playwright's separate `{ tag: '@desktop' }` or `{ tag: '@mobile' }` test details for platform-specific tests, keeping test names focused on behavior.
-- Run the smoke test in both desktop and mobile setup projects before the full suites; require both to pass before either full suite starts.
+- Run the smoke test in desktop and mobile setup projects, with each platform's full suite depending only on its matching smoke test.
 
 ## Coverage priorities
 
@@ -56,7 +56,7 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 - The minimum word-boundary run now asserts exact part contents and reconstructs that input from the parts. Other splitting runs still check for multiple parts and compare rendered JavaScript `.length` to the configured maximum; sentence/grapheme fallback and the app's displayed weighted lengths remain unverified.
 - Existing fixtures do not yet establish sentence/word/grapheme fallback, emoji grapheme boundaries, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows.
 - The URL-as-23 run enables the option but its current input and assertions do not prove that weighted URL counting changes a boundary or reported length.
-- The smoke test only navigates to the app. Separate help-section tests now verify the “What this tool does” disclosure and its text across empty/long-output pages with Advanced options on/off; mode behavior, button states, and output actions remain unverified.
+- The smoke test verifies that the app opens and renders its main heading in desktop and mobile Chromium. Separate help-section tests verify the “What this tool does” disclosure and its text across empty/long-output pages with Advanced options on/off; help-button navigation is covered on desktop and mobile. Mode behavior, other button states, and output actions remain unverified.
 - The production footer verification passed locally against the live site. Its first run inside GitHub Actions after a production deploy is still pending.
 
 ## Reporting and debugging

@@ -16,6 +16,7 @@ Custom domain: https://thread-splitter.stansult.com
 - Per-part max overrides for finer control.
 - Optional typography processing for quotes, dashes, and spacing.
 - Copy per part, copy all, or export JSON.
+- Open the in-page help from the top-right question-mark button.
 - Your text is processed in your browser and isn’t sent or uploaded anywhere.
 
 ## Usage

@@ -27,6 +27,9 @@
     chunks: $('#chunks'),
     chunkTpl: $('#chunkTpl'),
     summary: $('#summary'),
+    helpButton: $('#helpButton'),
+    helpDetails: $('#helpDetails'),
+    helpTitle: $('#helpTitle'),
 
     // options (primary)
     maxChars: $('#maxChars'),
@@ -884,6 +887,13 @@
   // ======================================
   // Events
   // ======================================
+  if (el.helpButton && el.helpDetails && el.helpTitle) {
+    el.helpButton.addEventListener('click', () => {
+      el.helpDetails.open = true;
+      el.helpTitle.scrollIntoView({ block: 'start' });
+    });
+  }
+
   if (el.splitBtn) el.splitBtn.addEventListener('click', run);
 
   if (el.autoBtn) {
