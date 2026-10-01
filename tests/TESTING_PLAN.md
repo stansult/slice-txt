@@ -73,7 +73,7 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 - Use Node.js 24, install dependencies with `npm ci`, install Chromium and its system dependencies, then run the same `npm test` command used locally. This has passed in GitHub Actions.
 - On successful pushes to `main`, GitHub Actions deploys `site/` to Netlify only when a site source file, the build metadata script, or `netlify.toml` changes. The workflow generates `site/build.txt`, uploads the prebuilt site with the Netlify CLI, and supplies the commit subject as the deploy message.
 - Netlify's automatic Git builds are stopped so tested GitHub Actions runs are the sole production deployment path. Netlify's ignore rule remains configured for when automatic builds are re-enabled.
-- After a production deploy, a separate Playwright check waits for the live `build.txt` to report the pushed commit, then verifies the footer displays that commit and a valid build timestamp.
+- After a production deploy, a separate Playwright check waits for the live `build.txt` to report the pushed commit, then verifies the footer displays that commit and a UTC build timestamp.
 
 ## Usage documentation
 

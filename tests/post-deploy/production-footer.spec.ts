@@ -8,7 +8,7 @@ test('production footer shows the deployed commit and build timestamp', async ({
     expect(deploySha, 'DEPLOY_SHA must be set').toMatch(/^[\da-f]{40}$/i);
 
     const shortSha = deploySha!.slice(0, 7);
-    const buildInfoPattern = new RegExp(`^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}\\s+${shortSha}$`);
+    const buildInfoPattern = new RegExp(`^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC\\s+${shortSha}$`);
 
     await expect.poll(async () => {
         const response = await fetch(new URL('build.txt', productionUrl!), { cache: 'no-store' });
@@ -21,7 +21,7 @@ test('production footer shows the deployed commit and build timestamp', async ({
     const response = await page.goto('/');
     expect(response?.ok()).toBeTruthy();
     await expect(page.locator('#buildVersion')).toHaveText(
-        new RegExp(`^v\\d+\\.\\d+\\.\\d+ • build \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}\\s+${shortSha}$`),
+        new RegExp(`^v\\d+\\.\\d+\\.\\d+ • build \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC\\s+${shortSha}$`),
         { timeout: 30_000 },
     );
 });

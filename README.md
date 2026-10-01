@@ -31,5 +31,5 @@ See [tests/README.md](tests/README.md) for the current test status and how to ru
 
 ## Build version
 
-- GitHub Actions runs `scripts/write_build_info.sh` before deployment to write the deployed commit SHA to `site/build.txt`.
+- GitHub Actions runs `scripts/write_build_info.sh` before deployment to write the UTC build timestamp and deployed commit SHA to `site/build.txt`; the footer labels the timestamp `UTC`.
 - `site/build.txt` is generated output and is ignored by Git; local runs show the `(local)` fallback when it is absent.
