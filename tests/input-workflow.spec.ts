@@ -28,6 +28,22 @@ test('manual mode waits for Split before creating parts', async ({ page }) => {
   await expect(page.locator('.chunk .content')).toHaveText(textCases.wordBoundary.expectedParts);
 });
 
+test('switching back to auto mode resumes splitting while typing', async ({ page }) => {
+  await page.locator('#autoBtn').click();
+  await page.locator('#input').fill(textCases.wordBoundary.input);
+  await page.locator('#splitBtn').click();
+  await expect(page.locator('.chunk .content')).toHaveText(textCases.wordBoundary.expectedParts);
+
+  await page.locator('#autoBtn').click();
+  await expect(page.locator('#autoBtn')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#input').pressSequentially(' twelve');
+
+  await expect(page.locator('.chunk .content')).toHaveText([
+    textCases.wordBoundary.expectedParts[0],
+    'eleven twelve',
+  ]);
+});
+
 test('Clear removes the input and generated parts', async ({ page }) => {
   await page.locator('#input').fill(textCases.wordBoundary.input);
   await expect(page.locator('.chunk .content')).toHaveText(textCases.wordBoundary.expectedParts);

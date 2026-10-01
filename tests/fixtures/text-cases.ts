@@ -113,6 +113,11 @@ export const splittingRuns = [
     name: 'minimum word-boundary split with counter newline',
     data: textCases.wordBoundary,
     options: optionScenarios.minimumWithCounterNewline,
+    expectedParts: [
+      'one two three four five six seven eight nine\n\n1/2',
+      'ten eleven\n\n2/2',
+    ],
+    expectedLengths: [49, 15],
   },
   {
     name: 'standard 280-character boundary',
@@ -134,26 +139,36 @@ export const splittingRuns = [
     name: '280-character boundary with continuation marker',
     data: textCases.justOver280,
     options: optionScenarios.standardWithArrow,
+    expectedParts: [`${'x'.repeat(278)} →`, 'xxx'],
+    expectedLengths: [280, 3],
   },
   {
     name: '280-character boundary with counter newline',
     data: textCases.justOver280,
     options: optionScenarios.standardWithCounterNewline,
+    expectedParts: [`${'x'.repeat(276)}\n1/2`, `${'x'.repeat(5)}\n\n2/2`],
+    expectedLengths: [280, 10],
   },
   {
     name: '280-character boundary with continuation marker and counter newline',
     data: textCases.justOver280,
     options: optionScenarios.standardWithArrowAndCounterNewline,
+    expectedParts: [`${'x'.repeat(274)} →\n1/2`, `${'x'.repeat(7)}\n\n2/2`],
+    expectedLengths: [280, 12],
   },
   {
     name: '280-character boundary with parenthetical prefix counter',
     data: textCases.justOver280,
     options: optionScenarios.standardWithParentheticalPrefixCounter,
+    expectedParts: [`(1/2) ${'x'.repeat(274)}`, `(2/2) ${'x'.repeat(7)}`],
+    expectedLengths: [280, 13],
   },
   {
     name: '280-character boundary with ellipsis continuation',
     data: textCases.justOver280,
     options: optionScenarios.standardWithEllipsis,
+    expectedParts: [`${'x'.repeat(278)} …`, 'xxx'],
+    expectedLengths: [280, 3],
   },
   {
     name: 'weighted URL boundary',

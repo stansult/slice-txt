@@ -42,7 +42,7 @@
 
 Add coverage in deliberate, user-visible increments; do not generate every option permutation.
 
-1. **Core split correctness:** assert exact parts for representative inputs, preserve the complete normalized input across parts, and verify sentence → word → grapheme fallback behavior. Include grapheme-safe splitting for emoji and other multi-code-point characters.
+1. **Core split correctness:** assert exact parts for representative inputs, preserve the complete normalized input across parts, verify greedy word-boundary splitting with grapheme fallback for overlong tokens, and include grapheme-safe splitting for emoji and other multi-code-point characters. Do not promise or test sentence-boundary preference; the current behavior does not guarantee it.
 2. **Length accounting:** assert the displayed length and limit for each part, including counter/continuation overhead. Make the URL-as-23 case distinguish weighted counting from ordinary character counting, and test URL counting disabled. Include a boundary that demonstrates grapheme-aware counting.
 3. **Input workflow:** cover auto-split while typing, manual Split mode, toggling between modes, and Clear removing both input and output.
 4. **Option behavior and persistence:** cover blank-line-starts-new-part, representative typography transformations with typography off/on, Reset restoring defaults, and saved options surviving reload.
@@ -53,11 +53,11 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 
 ### Current gaps
 
-- Selected splitting runs now assert exact part contents, reconstruct inputs across parts, and verify rendered lengths against the configured limit. The standard 280-character ASCII boundary and a family-emoji grapheme boundary have exact expectations. Other splitting runs still use broader part-count assertions; sentence/word fallback behavior remains only partially verified.
-- Input workflow tests cover auto-splitting while typing, manual splitting on request, and Clear removing both the input and generated output. Switching from manual mode back to auto mode remains untested.
-- Existing fixtures do not yet establish sentence and word fallback behavior, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows. The new family-emoji boundary covers grapheme-safe splitting for one multi-code-point character; additional grapheme cases remain useful.
+- All selected splitting runs now assert exact part contents and displayed lengths, including word-boundary splits, counter/continuation formatting, URL counting on/off, and a family-emoji grapheme boundary. Input reconstruction is checked where the formatting permits it. Additional grapheme-boundary cases and real-world text remain useful.
+- Input workflow tests cover auto-splitting while typing, manual splitting on request, switching back to auto mode, and Clear removing both the input and generated output.
+- The options suite covers blank-line behavior, typography opt-in, Reset defaults, and persistence after reload. Per-part-limit coverage verifies splitting changes and clamping to the global and minimum limits. Output-action coverage verifies action-button availability, clipboard contents, JSON export, and emoji/URL length tips. Additional grapheme-boundary cases remain useful.
 - URL-as-23 and URL-counting-disabled runs now use the same input to verify that weighting changes both the split and displayed length.
-- The smoke test verifies that the app opens and renders its main heading in desktop and mobile Chromium. Separate help-section tests verify the “What this tool does” disclosure and its text across empty/long-output pages with Advanced options on/off; help-button navigation is covered on desktop and mobile. Switching input modes, other button states, and output actions remain unverified.
+- The smoke test verifies that the app opens and renders its main heading in desktop and mobile Chromium. Separate help-section tests verify the “What this tool does” disclosure and its text across empty/long-output pages with Advanced options on/off; help-button navigation is covered on desktop and mobile. Copy-all and JSON-export empty states are covered; other button-state combinations are not a current priority.
 - The production footer verification passed locally against the live site. Its first run inside GitHub Actions after a production deploy is still pending.
 
 ## Reporting and debugging
@@ -84,7 +84,7 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 1. [✓] Add Playwright and TypeScript tooling.
 2. [✓] Verify the browser opens the locally served app with a smoke test.
 3. [✓] Write and run a core workflow test locally, asserting its rendered splitting results.
-4. Expand coverage from user-visible behavior and refine structure only when useful.
+4. [✓] Expand coverage from user-visible behavior and refine structure only when useful.
 5. [✓] Add the GitHub Actions workflow configuration.
 6. [✓] Verify the GitHub-hosted test workflow and test-gated production deploy.
 7. [Local ✓] Add and verify post-deploy commit and footer checks locally; verify the check in GitHub Actions after a production deploy.
