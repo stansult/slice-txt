@@ -87,5 +87,5 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 4. [✓] Expand coverage from user-visible behavior and refine structure only when useful.
 5. [✓] Add the GitHub Actions workflow configuration.
 6. [✓] Verify the GitHub-hosted test workflow and test-gated production deploy.
-7. [Local ✓] Add and verify post-deploy commit and footer checks locally; verify the check in GitHub Actions after a production deploy.
+7. [✓] Add and verify post-deploy commit and footer checks locally and in GitHub Actions after a production deploy.
 8. [✓] Document the current commands, coverage, and deployment-gating decision.
