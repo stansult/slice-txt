@@ -7,8 +7,12 @@ export const textCases = {
     name: 'ASCII input just over 280 characters',
     input: 'x'.repeat(281),
   },
+  graphemeBoundary: {
+    name: 'multi-code-point emoji at the 50-character boundary',
+    input: `${'a'.repeat(49)}👨‍👩‍👧‍👦b`,
+  },
   urlNearWeightedLimit: {
-    name: 'URL input just over 280 when URLs count as 23',
+    name: 'URL input near the 280-character boundary',
     input: `${'x'.repeat(258)} https://example.com`,
     requiredSubstrings: ['https://example.com'],
   },
@@ -84,6 +88,14 @@ export const optionScenarios = {
     counterNewline: false,
     urlAs23: true,
   },
+  standardWithoutUrlAs23: {
+    name: '280-character limit with URL counting disabled',
+    maxChars: 280,
+    useNumbering: false,
+    useContinuation: false,
+    counterNewline: false,
+    urlAs23: false,
+  },
 } as const;
 
 export const splittingRuns = [
@@ -105,6 +117,17 @@ export const splittingRuns = [
     name: 'standard 280-character boundary',
     data: textCases.justOver280,
     options: optionScenarios.standardWithoutExtras,
+    expectedParts: ['x'.repeat(280), 'x'],
+    expectedLengths: [280, 1],
+    reconstructionSeparator: '',
+  },
+  {
+    name: '50-character grapheme boundary',
+    data: textCases.graphemeBoundary,
+    options: optionScenarios.minimumWithoutExtras,
+    expectedParts: [`${'a'.repeat(49)}👨‍👩‍👧‍👦`, 'b'],
+    expectedLengths: [50, 1],
+    reconstructionSeparator: '',
   },
   {
     name: '280-character boundary with continuation marker',
@@ -135,5 +158,16 @@ export const splittingRuns = [
     name: 'weighted URL boundary',
     data: textCases.urlNearWeightedLimit,
     options: optionScenarios.standardWithUrlAs23,
+    expectedParts: ['x'.repeat(258), 'https://example.com'],
+    expectedLengths: [258, 23],
+    reconstructionSeparator: ' ',
+  },
+  {
+    name: 'URL boundary with URL counting disabled',
+    data: textCases.urlNearWeightedLimit,
+    options: optionScenarios.standardWithoutUrlAs23,
+    expectedParts: [textCases.urlNearWeightedLimit.input],
+    expectedLengths: [278],
+    reconstructionSeparator: '',
   },
 ];

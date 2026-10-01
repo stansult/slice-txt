@@ -53,9 +53,9 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 
 ### Current gaps
 
-- The minimum word-boundary run now asserts exact part contents and reconstructs that input from the parts. Other splitting runs still check for multiple parts and compare rendered JavaScript `.length` to the configured maximum; sentence/grapheme fallback and the app's displayed weighted lengths remain unverified.
-- Existing fixtures do not yet establish sentence/word/grapheme fallback, emoji grapheme boundaries, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows.
-- The URL-as-23 run enables the option but its current input and assertions do not prove that weighted URL counting changes a boundary or reported length.
+- Selected splitting runs now assert exact part contents, reconstruct inputs across parts, and verify rendered lengths against the configured limit. The standard 280-character ASCII boundary and a family-emoji grapheme boundary have exact expectations. Other splitting runs still use broader part-count assertions; sentence/word fallback behavior remains only partially verified.
+- Existing fixtures do not yet establish sentence and word fallback behavior, blank-line behavior, typography, per-part overrides, persistence/reset, or the copy/export workflows. The new family-emoji boundary covers grapheme-safe splitting for one multi-code-point character; additional grapheme cases remain useful.
+- URL-as-23 and URL-counting-disabled runs now use the same input to verify that weighting changes both the split and displayed length.
 - The smoke test verifies that the app opens and renders its main heading in desktop and mobile Chromium. Separate help-section tests verify the “What this tool does” disclosure and its text across empty/long-output pages with Advanced options on/off; help-button navigation is covered on desktop and mobile. Mode behavior, other button states, and output actions remain unverified.
 - The production footer verification passed locally against the live site. Its first run inside GitHub Actions after a production deploy is still pending.
 

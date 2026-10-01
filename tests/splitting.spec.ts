@@ -34,14 +34,27 @@ for (const run of splittingRuns) {
     await page.locator('#input').fill(run.data.input);
 
     const parts = await page.locator('.chunk .content').allTextContents();
-    expect(parts.length).toBeGreaterThan(1);
-    for (const part of parts) {
-      expect(part.length).toBeLessThanOrEqual(maxChars);
+    const displayedLengths = (await page.locator('.chunk .len').allTextContents()).map(Number);
+    const displayedLimits = (await page.locator('.chunk .cap').allTextContents()).map(Number);
+    expect(displayedLengths).toHaveLength(parts.length);
+    expect(displayedLimits).toHaveLength(parts.length);
+    for (const length of displayedLengths) {
+      expect(length).toBeLessThanOrEqual(maxChars);
     }
+    expect(displayedLimits).toEqual(parts.map(() => maxChars));
 
     if ('expectedParts' in run) {
       expect(parts).toEqual(run.expectedParts);
-      expect(parts.join(' ')).toBe(run.data.input);
+    } else {
+      expect(parts.length).toBeGreaterThan(1);
+    }
+
+    if ('expectedLengths' in run) {
+      expect(displayedLengths).toEqual(run.expectedLengths);
+    }
+
+    if ('reconstructionSeparator' in run) {
+      expect(parts.join(run.reconstructionSeparator)).toBe(run.data.input);
     }
 
     if (useContinuation) {
