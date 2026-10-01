@@ -62,8 +62,9 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 
 ## Reporting and debugging
 
-- Configure Playwright to provide useful failure output and retain traces or reports when a test fails in CI.
-- Document how to open and inspect those artifacts.
+- Keep Playwright's useful list output in the terminal and generate the HTML report without opening it automatically.
+- Upload the HTML report as a GitHub Actions artifact after every non-cancelled test run, including failures; ignore a missing report directory and retain artifacts for 30 days.
+- Document where to download the report and how to inspect it.
 - Keep reporting configuration proportional to the size of the suite.
 
 ## Continuous integration

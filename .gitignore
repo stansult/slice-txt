@@ -3,6 +3,7 @@ screenshots/
 notes/
 node_modules/
 test-results/
+playwright-report/
 site/build.txt
 
 # Local Netlify folder

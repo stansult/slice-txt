@@ -14,6 +14,8 @@ The GitHub Actions workflow in [`playwright.yml`](../.github/workflows/playwrigh
 
 The deploy job is configured to run `npm run verify:deploy` after a site-changing production deploy. The separate [`playwright.deploy.config.ts`](../playwright.deploy.config.ts) and [`production-footer.spec.ts`](post-deploy/production-footer.spec.ts) poll the live `build.txt` for the pushed commit SHA, then verify that the production footer shows that SHA and a timestamp. This check passed locally and in GitHub Actions after the production deploy for commit `9da6202` ([workflow run](https://github.com/stansult/slice-txt/actions/runs/36851806502)). To run it locally, set `PRODUCTION_URL` and `DEPLOY_SHA` to a live site URL and its full deployed commit SHA, for example: `PRODUCTION_URL=https://thread-splitter.stansult.com DEPLOY_SHA=<full-commit-sha> npm run verify:deploy`.
 
+The Playwright HTML reporter runs alongside the terminal list reporter and does not open a browser automatically. Each non-cancelled GitHub Actions test run uploads the report as the `playwright-report` artifact, including when tests fail. Find it in the workflow run's **Artifacts** section on the GitHub Actions run page; artifacts are retained for 30 days. Download and extract the artifact, then open it with `npx playwright show-report <path-to-extracted-report>`.
+
 ## Troubleshooting
 
 If a test suggests the local server failed or served a bad response, first temporarily comment out or remove `stderr: 'ignore'` from [`playwright.config.ts`](../playwright.config.ts), then rerun `npm test` to reveal the Python server's diagnostic output. Restore the setting afterward if you want routine request logs hidden again.
