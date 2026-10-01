@@ -2,6 +2,10 @@ export const textCases = {
   wordBoundary: {
     name: 'word boundary input',
     input: 'one two three four five six seven eight nine ten eleven',
+    expectedParts: [
+      'one two three four five six seven eight nine ten',
+      'eleven',
+    ],
   },
   justOver280: {
     name: 'ASCII input just over 280 characters',
@@ -103,10 +107,7 @@ export const splittingRuns = [
     name: 'minimum word-boundary split',
     data: textCases.wordBoundary,
     options: optionScenarios.minimumWithoutExtras,
-    expectedParts: [
-      'one two three four five six seven eight nine ten',
-      'eleven',
-    ],
+    expectedParts: textCases.wordBoundary.expectedParts,
   },
   {
     name: 'minimum word-boundary split with counter newline',
