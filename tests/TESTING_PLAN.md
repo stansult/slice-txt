@@ -35,6 +35,8 @@
 - Use explicit, small input examples with expected output so results are repeatable and easy to understand.
 - Keep tests independent of external services and production data.
 - Make browser setup work consistently on a developer machine and GitHub Actions.
+- Run untagged tests in both desktop Chromium and the fixed Pixel 7 mobile Chromium profile. Use Playwright's separate `{ tag: '@desktop' }` or `{ tag: '@mobile' }` test details for platform-specific tests, keeping test names focused on behavior.
+- Run the smoke test in both desktop and mobile setup projects before the full suites; require both to pass before either full suite starts.
 
 ## Coverage priorities
 

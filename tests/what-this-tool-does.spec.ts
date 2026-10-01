@@ -24,7 +24,6 @@ const advancedStates = [
 for (const pageState of pageStates) {
   for (const advancedState of advancedStates) {
     test(`What this tool does works on ${pageState.name} with ${advancedState.name}`, async ({ page }) => {
-      await page.setViewportSize({ width: 900, height: 650 });
       await page.goto('/');
 
       if (advancedState.enabled) {
