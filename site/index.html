@@ -82,34 +82,54 @@
           <div class="controls controls--compact">
             <!-- 1) Max chars -->
             <div class="row">
-              <label for="maxChars" class="nowrap">Max chars</label>
-              <input id="maxChars" type="number" min="10" max="5000" value="280">
+              <span class="tooltip-host">
+                <label for="maxChars" class="nowrap">Max chars</label>
+                <input id="maxChars" type="number" min="10" max="5000" value="280" aria-describedby="maxCharsTip">
+                <button class="tooltip-trigger" type="button" aria-label="Character limit details" aria-expanded="false" aria-controls="maxCharsTip">i</button>
+                <span class="control-tooltip" id="maxCharsTip" role="tooltip">Maximum characters per part.</span>
+              </span>
             </div>
 
             <!-- Counter -->
             <div class="row">
-              <label class="row-inline">
-                <input id="useNumbering" type="checkbox" checked>
-                <span>Counter</span>
-              </label>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="useNumbering" type="checkbox" checked aria-describedby="counterTip">
+                  <span>Counter</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="Numbering details" aria-expanded="false" aria-controls="counterTip">i</button>
+                <span class="control-tooltip" id="counterTip" role="tooltip">Add part numbers, like 1/3.</span>
+              </span>
 
-              <select id="counterPlacement" class="counter-extra" aria-label="Counter placement">
-                <option value="after">after</option>
-                <option value="before">before</option>
-              </select>
-              <span class="muted counter-extra">text</span>
+              <span class="tooltip-host counter-extra">
+                <select id="counterPlacement" aria-label="Counter placement" aria-describedby="counterPlacementTip">
+                  <option value="after">after</option>
+                  <option value="before">before</option>
+                </select>
+                <span class="muted">the text</span>
+                <button class="tooltip-trigger" type="button" aria-label="Number placement details" aria-expanded="false" aria-controls="counterPlacementTip">i</button>
+                <span class="control-tooltip" id="counterPlacementTip" role="tooltip">Choose whether the part number appears before or after the text.</span>
+              </span>
             </div>
 
             <!-- NEW line for the extra checkboxes -->
             <div class="row counter-adv adv">
-              <label class="row-inline">
-                <input id="counterParen" type="checkbox">
-                <span>parentheses</span>
-              </label>
-              <label class="row-inline">
-                <input id="counterNewline" type="checkbox">
-                <span>new line</span>
-              </label>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="counterParen" type="checkbox" aria-describedby="counterParenTip">
+                  <span>parentheses</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="Number formatting details" aria-expanded="false" aria-controls="counterParenTip">i</button>
+                <span class="control-tooltip" id="counterParenTip" role="tooltip">Put part numbers in parentheses.</span>
+              </span>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="counterNewline" type="checkbox" aria-describedby="counterNewlineTip">
+                  <span>new line</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="Number line-break details" aria-expanded="false" aria-controls="counterNewlineTip">i</button>
+                <span class="control-tooltip" id="counterNewlineTip" role="tooltip">Put part numbers on a new line.</span>
+              </span>
             </div>
 
             <!-- 3) Blank line behavior -->
@@ -122,38 +142,54 @@
 
             <!-- Continuation marker -->
             <div class="row adv">
-              <label class="row-inline">
-                <input id="useContinuation" type="checkbox">
-                <span>Continuation marker</span>
-              </label>
-              <select id="continuationMarker" aria-label="Continuation marker">
-                <option value="arrow">→</option>
-                <option value="ellipsis">…</option>
-              </select>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="useContinuation" type="checkbox" aria-describedby="continuationTip">
+                  <span>Continuation marker</span>
+                </label>
+                <select id="continuationMarker" aria-label="Continuation marker" aria-describedby="continuationTip">
+                  <option value="arrow">→</option>
+                  <option value="ellipsis">…</option>
+                </select>
+                <button class="tooltip-trigger" type="button" aria-label="Continuation symbol details" aria-expanded="false" aria-controls="continuationTip">i</button>
+                <span class="control-tooltip" id="continuationTip" role="tooltip">Adds the selected marker to the end of each part that has more text after it.</span>
+              </span>
             </div>
 
             <!-- Twitter-style URL length -->
             <div class="row adv">
-              <label class="row-inline">
-                <input id="urlAs23" type="checkbox" checked>
-                <span>URLs count as 23 chars (Twitter)</span>
-              </label>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="urlAs23" type="checkbox" checked aria-describedby="urlAs23Tip">
+                  <span>URLs count as 23 chars (Twitter)</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="URL length details" aria-expanded="false" aria-controls="urlAs23Tip">i</button>
+                <span class="control-tooltip" id="urlAs23Tip" role="tooltip">Each detected URL counts as 23 characters toward the limit, regardless of its displayed length.</span>
+              </span>
             </div>
 
             <!-- Typography processing -->
             <div class="row adv">
-              <label class="row-inline">
-                <input id="useTypography" type="checkbox">
-                <span>Typography (quotes, dashes, spacing)</span>
-              </label>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="useTypography" type="checkbox" aria-describedby="useTypographyTip">
+                  <span>Typography cleanup</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="Text typography details" aria-expanded="false" aria-controls="useTypographyTip">i</button>
+                <span class="control-tooltip" id="useTypographyTip" role="tooltip">Cleans up quotes, dashes, and spacing; also standardizes ellipses and arrows.</span>
+              </span>
             </div>
 
             <!-- Part max chars override -->
             <div class="row adv">
-              <label class="row-inline">
-                <input id="perPartMaxOverride" type="checkbox">
-                <span>Per-part max override</span>
-              </label>
+              <span class="tooltip-host">
+                <label class="row-inline">
+                  <input id="perPartMaxOverride" type="checkbox" aria-describedby="perPartMaxTip">
+                  <span>Per-part max override</span>
+                </label>
+                <button class="tooltip-trigger" type="button" aria-label="Individual part limit details" aria-expanded="false" aria-controls="perPartMaxTip">i</button>
+                <span class="control-tooltip" id="perPartMaxTip" role="tooltip">Set a lower character limit for each part; the global maximum still applies.</span>
+              </span>
             </div>
 
           </div>

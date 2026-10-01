@@ -218,6 +218,90 @@ input[type="checkbox"] {
   white-space: nowrap;
 }
 
+.tooltip-host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tooltip-trigger {
+  position: relative;
+  display: none;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid #53647d;
+  border-radius: 50%;
+  color: var(--ink);
+  background: #10141d;
+  font: inherit;
+  cursor: pointer;
+}
+
+.tooltip-trigger::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+}
+
+.control-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: calc(100% + 7px);
+  width: max-content;
+  max-width: min(260px, calc(100vw - 48px));
+  padding: 8px 10px;
+  border: 1px solid #53647d;
+  border-radius: 8px;
+  color: var(--ink);
+  background: #202735;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .45);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tooltip-host:hover .control-tooltip,
+  .tooltip-host:focus-within .control-tooltip {
+    display: block;
+  }
+}
+
+@media (any-pointer: coarse) {
+  .tooltip-trigger {
+    display: inline-grid;
+    place-items: center;
+  }
+
+  .tooltip-host.tooltip-open .control-tooltip {
+    display: block;
+  }
+
+  .control-tooltip {
+    top: calc(100% + 7px);
+    right: auto;
+    left: 0;
+  }
+}
+
+.card.section.sticky:has(.tooltip-host:hover),
+.card.section.sticky:has(.tooltip-host:focus-within),
+.card.section.sticky:has(.tooltip-host.tooltip-open) {
+  z-index: 5;
+  overflow: visible;
+}
+
+.counter-extra .muted {
+  white-space: nowrap;
+}
+
 .controls--compact input[type="number"] {
   max-width: 110px;
 }

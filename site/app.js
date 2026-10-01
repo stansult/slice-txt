@@ -778,11 +778,8 @@
     const on = !!el.useNumbering.checked;
 
     if (el.counterPlacement) {
-      el.counterPlacement.style.display = on ? '' : 'none';
-      const maybeText = el.counterPlacement.nextElementSibling;
-      if (maybeText && maybeText.tagName === 'SPAN') {
-        maybeText.style.display = on ? '' : 'none';
-      }
+      const placementHost = el.counterPlacement.closest('.counter-extra');
+      if (placementHost) placementHost.style.display = on ? '' : 'none';
     }
 
     const advRow = document.querySelector('.counter-adv');
@@ -1002,6 +999,47 @@
       run();
     });
   }
+
+  const tooltipTriggers = [...document.querySelectorAll('.tooltip-trigger')];
+
+  for (const trigger of tooltipTriggers) {
+    trigger.setAttribute('aria-describedby', trigger.getAttribute('aria-controls'));
+  }
+
+  function closeTooltips(except = null) {
+    for (const trigger of tooltipTriggers) {
+      if (trigger === except) continue;
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.closest('.tooltip-host')?.classList.remove('tooltip-open');
+    }
+  }
+
+  for (const trigger of tooltipTriggers) {
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeTooltips(trigger);
+      trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      trigger.closest('.tooltip-host')?.classList.toggle('tooltip-open', !isOpen);
+    });
+  }
+
+  document.addEventListener('pointerdown', event => {
+    if (!(event.target instanceof Element)) {
+      closeTooltips();
+      return;
+    }
+
+    const targetHost = event.target.closest('.tooltip-host');
+    const activeTrigger = tooltipTriggers.find(trigger => trigger.getAttribute('aria-expanded') === 'true');
+    const activeHost = activeTrigger?.closest('.tooltip-host');
+    const targetIsControl = !event.target.closest('.tooltip-trigger, .control-tooltip');
+
+    if (!targetHost || (targetHost === activeHost && targetIsControl)) closeTooltips();
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeTooltips();
+  });
 
   function flash(button, text) {
     const prev = button.textContent;
