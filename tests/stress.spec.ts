@@ -15,6 +15,22 @@ test('large input is fully split within the character limit', async ({ page }) =
   expect(displayedLengths.every(length => length <= 280)).toBe(true);
 });
 
+test('very long unbroken input is split losslessly within the character limit', async ({ page }) => {
+  const largeToken = '0123456789'.repeat(14_000);
+
+  await page.goto('/');
+  await page.locator('#autoBtn').click();
+  await page.locator('#input').fill(largeToken);
+  await page.locator('#useNumbering').uncheck();
+
+  const parts = await page.locator('.chunk .content').allTextContents();
+  const displayedLengths = (await page.locator('.chunk .len').allTextContents()).map(Number);
+
+  expect(parts.length).toBeGreaterThan(1);
+  expect(parts.join('')).toBe(largeToken);
+  expect(displayedLengths.every(length => length <= 280)).toBe(true);
+});
+
 test('rapid option changes leave large-input output consistent', async ({ page }) => {
   const repeatCount = 1_760;
   const originalText = 'He said "hello" -> done. '.repeat(repeatCount).trim();

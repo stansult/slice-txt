@@ -416,14 +416,21 @@
           } else if (tweetLen(tok) > cap) {
             // split token by graphemes (URLs are \S+ and will never go here,
             // since their tweetLen is 23 and cap >= MIN_CHARS >= 50)
-            let remain = tok;
-            while (graphemes(remain) > 0) {
+            const graphemeIterator = graphemeSegments(tok)[Symbol.iterator]();
+            let nextGrapheme = graphemeIterator.next();
+            while (!nextGrapheme.done) {
               const cap2 = capacityForIndex(i, Math.max(1, N)) - tweetLen(cur);
               if (cap2 <= 0) { parts.push(cur); i++; cur = ''; continue; }
-              const slice = sliceGraphemes(remain, cap2);
-              cur += slice.taken;
-              remain = slice.rest;
-              if (graphemes(remain) > 0) { parts.push(cur); i++; cur = ''; }
+
+              let taken = '';
+              let takenCount = 0;
+              while (!nextGrapheme.done && takenCount < cap2) {
+                taken += nextGrapheme.value;
+                takenCount++;
+                nextGrapheme = graphemeIterator.next();
+              }
+              cur += taken;
+              if (!nextGrapheme.done) { parts.push(cur); i++; cur = ''; }
             }
           } else {
             parts.push(cur); i++; cur = tok;
@@ -573,19 +580,12 @@
       return s.slice(0, e);
     }
 
-    function sliceGraphemes(s, maxCount) {
-      if (!s) return { taken: '', rest: '' };
-      if (maxCount <= 0) return { taken: '', rest: s };
+    function* graphemeSegments(s) {
       if (!segG) {
-        const arr = Array.from(s);
-        return { taken: arr.slice(0, maxCount).join(''), rest: arr.slice(maxCount).join('') };
+        yield* Array.from(s);
+        return;
       }
-      let out = ''; let count = 0;
-      for (const it of segG.segment(s)) {
-        if (count >= maxCount) return { taken: out, rest: s.slice(out.length) };
-        out += it.segment; count++;
-      }
-      return { taken: out, rest: '' };
+      for (const item of segG.segment(s)) yield item.segment;
     }
   }
 
