@@ -54,7 +54,7 @@ Keep assertions focused on the selected run's enabled behavior. For text-process
 ### Current gaps
 
 - All selected splitting runs now assert exact part contents and displayed lengths, including word-boundary splits, counter/continuation formatting, URL counting on/off, and a family-emoji grapheme boundary. Input reconstruction is checked where the formatting permits it. Additional grapheme-boundary cases and real-world text remain useful.
-- Input workflow tests cover auto-splitting while typing, manual splitting on request, switching back to auto mode, and Clear removing both the input and generated output.
+- Input workflow tests cover auto-splitting while typing, manual splitting on request, switching back to auto mode, Clear removing both the input and generated output, and a live raw-grapheme count independent of output options.
 - Stress tests verify lossless splitting and per-part limits for approximately 44,000 characters; output consistency and part limits are checked after every typography, continuation, and numbering toggle on input of the same size.
 - The options suite covers blank-line behavior, typography opt-in, Reset defaults, and persistence after reload. Per-part-limit coverage verifies splitting changes and clamping to the global and minimum limits. Output-action coverage verifies action-button availability, clipboard contents, JSON export, and emoji/URL length tips. Additional grapheme-boundary cases remain useful.
 - URL-as-23 and URL-counting-disabled runs now use the same input to verify that weighting changes both the split and displayed length.

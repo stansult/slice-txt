@@ -167,6 +167,14 @@ textarea {
   align-items: center;
 }
 
+.input-meta {
+  justify-content: space-between;
+}
+
+.input-char-count {
+  white-space: nowrap;
+}
+
 .row-inline {
   display: inline-flex;
   align-items: center;

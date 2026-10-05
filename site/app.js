@@ -17,6 +17,7 @@
 
     // small hints
     autoHint: $('#autoHint'),
+    inputCharCount: $('#inputCharCount'),
     lengthTip: $('#lengthTip'),
 
     // output actions
@@ -148,6 +149,14 @@
     }
     return Array.from(String(s)).length;
   }
+
+  function updateInputCharCount() {
+    if (!el.input || !el.inputCharCount) return;
+    const count = graphemes(el.input.value);
+    el.inputCharCount.textContent = `${count.toLocaleString()} ${count === 1 ? 'character' : 'characters'}`;
+  }
+
+  updateInputCharCount();
 
   const segS = (() => {
     try { return new Intl.Segmenter(undefined, { granularity: 'sentence' }); }
@@ -916,6 +925,7 @@
   ['input', 'keyup'].forEach(evt => {
     if (el.input) {
       el.input.addEventListener(evt, () => {
+        updateInputCharCount();
         if (isAuto()) run();
         updateButtons();
       });
@@ -969,6 +979,7 @@
   if (el.clearBtn) {
     el.clearBtn.addEventListener('click', () => {
       el.input.value = '';
+      updateInputCharCount();
       lastChunks = [];
       partMaxOverrides = [];
       render([]);
