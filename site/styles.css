@@ -169,10 +169,15 @@ textarea {
 
 .input-meta {
   justify-content: space-between;
+  margin-bottom: 4px;
 }
 
 .input-char-count {
   white-space: nowrap;
+}
+
+#lengthTipRow {
+  margin-top: 4px;
 }
 
 .row-inline {
