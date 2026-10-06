@@ -8,6 +8,7 @@ Custom domain: https://thread-splitter.stansult.com
 ## Features
 
 - Auto or manual splitting with a configurable max character count.
+- Live input character count, independent of the output options.
 - Emoji-aware length counting (grapheme-based).
 - Optional URL-as-23 counting (X/Twitter-style).
 - Counter placement before/after, with parentheses and optional new lines.
@@ -15,6 +16,7 @@ Custom domain: https://thread-splitter.stansult.com
 - Optional continuation markers for non-final parts.
 - Per-part max overrides for finer control.
 - Optional typography processing for quotes, dashes, and spacing.
+- Saved option settings that persist after reload, with Reset to restore defaults.
 - Copy per part, copy all, or export JSON.
 - Open the in-page help from the top-right question-mark button.
 - Your text is processed in your browser and isn’t sent or uploaded anywhere.

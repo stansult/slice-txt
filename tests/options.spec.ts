@@ -29,6 +29,19 @@ test('typography option transforms quotes, ellipses, and arrows only when enable
   await expect(page.locator('.chunk .content')).toHaveText(['He said “hello” and «привет»… → done']);
 });
 
+test('typography cleanup preserves line breaks and URLs while normalizing spacing and dashes', async ({ page }) => {
+  const inputText = '  -  item   one .\n  --  item   two ;\n2025 -2026, 2027 - 2028; A - B - C... -> "привет" at https://example.com/a...->b';
+
+  await page.getByRole('button', { name: 'Advanced' }).click();
+  await page.locator('#useNumbering').uncheck();
+  await page.locator('#input').fill(inputText);
+  await page.locator('#useTypography').check();
+
+  await expect(page.locator('.chunk .content')).toHaveText([
+    '– item one.\n– item two;\n2025–2026, 2027 – 2028; A – B – C… → «привет» at https://example.com/a...->b',
+  ]);
+});
+
 test('Reset restores the default option values', async ({ page }) => {
   await page.getByRole('button', { name: 'Advanced' }).click();
   await page.locator('#maxChars').fill('140');
@@ -42,6 +55,10 @@ test('Reset restores the default option values', async ({ page }) => {
   await page.locator('#perPartMaxOverride').check();
   await page.locator('#urlAs23').uncheck();
   await page.locator('#useTypography').check();
+  await page.locator('#input').fill('x'.repeat(600));
+  await page.locator('.part-max-input').first().fill('50');
+  await page.locator('.part-max-input').first().press('Enter');
+  await expect(page.locator('.part-max-input').first()).toHaveValue('50');
 
   await page.locator('#optionsResetBtn').click();
 
@@ -57,6 +74,12 @@ test('Reset restores the default option values', async ({ page }) => {
   await expect(page.locator('#urlAs23')).toBeChecked();
   await expect(page.locator('#useTypography')).not.toBeChecked();
   await expect(page.locator('#advBtn')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.chunk .content')).toHaveText([
+    `${'x'.repeat(276)} 1/3`,
+    `${'x'.repeat(276)} 2/3`,
+    `${'x'.repeat(48)} 3/3`,
+  ]);
+  await expect(page.locator('.chunk .cap')).toHaveText(['280', '280', '280']);
 });
 
 test('selected options persist after reloading the page', async ({ page }) => {
